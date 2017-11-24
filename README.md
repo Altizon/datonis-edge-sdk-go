@@ -17,3 +17,8 @@ Implementing Edge Agent
 You can then run example as follows:
 
 go run examples/sample.go
+
+Acknowledgments
+---------------
+
+ * We would like to thank [Josh Software](http://www.joshsoftware.com/) for providing the go SDK with MQTTS protocol.
