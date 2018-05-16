@@ -7,10 +7,10 @@ import (
 	"regexp"
 	//"regexp"
 	"bytes"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
-	"strconv"
 
 	MQTT "github.com/eclipse/paho.mqtt.golang"
 )
@@ -22,7 +22,7 @@ const (
 )
 
 var MissingKey = errors.New("Cannot subscribe to instructions as thing or device key not present.")
-var MqttClientId string;
+var MqttClientId string
 
 type Instruction struct {
 	ThingKey           string `json:"thing_key,omitempty"`
@@ -43,7 +43,7 @@ type MqttGateway struct {
 	Queue                sync.WaitGroup // to wait on messages.
 	Acks                 chan string
 	Instructions         chan Instruction
-	InstructionHandler	 func (gw EdgeGateway, ts int64, t *Thing, alertKey string, instruction map[string]interface{})
+	InstructionHandler   func(gw EdgeGateway, ts int64, t *Thing, alertKey string, instruction map[string]interface{})
 	client               MQTT.Client
 	RegisteredKeys       []string
 	RegisteredDeviceKeys []string
@@ -59,6 +59,8 @@ func NewClient(config *GatewayConfig) MQTT.Client {
 	opts.AddBroker(config.Url())
 	MqttClientId = config.AccessKey[0:10] + "_" + strconv.FormatInt(time.Now().Unix(), 10)
 	opts.SetClientID(MqttClientId)
+	opts.SetUsername(config.AccessKey)
+	opts.SetPassword(string(encode(config.SecretKey, []byte(config.AccessKey))))
 
 	return MQTT.NewClient(opts)
 }
@@ -201,7 +203,7 @@ func (gw *MqttGateway) ThingEvent(eventData map[string]interface{}) error {
 }
 
 func (gw *MqttGateway) BulkThingEvent(eventData []map[string]interface{}) error {
-	bulkEventData := map[string]interface{} {
+	bulkEventData := map[string]interface{}{
 		"events": eventData,
 	}
 	return gw.ThingEvent(bulkEventData)

@@ -14,14 +14,14 @@ type GatewayConfig struct {
 func InitGatewayConfig(c *GatewayConfig) *GatewayConfig {
 	if c.Protocol == "mqtt" {
 		if c.Host == "" {
-			c.Host = "mqtt.datonis.io"
+			c.Host = "telemetry.datonis.io"
 		}
 		if c.Port == 0 {
 			c.Port = 1883
 		}
 	} else if c.Protocol == "mqtts" {
 		if c.Host == "" {
-			c.Host = "mqtt.datonis.io"
+			c.Host = "telemetry.datonis.io"
 		}
 		if c.Port == 0 {
 			c.Port = 8883

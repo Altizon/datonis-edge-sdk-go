@@ -8,8 +8,8 @@ import (
 func TestMqttsGatewayConfig(t *testing.T) {
 	gw := InitGatewayConfig(&GatewayConfig{Protocol: "mqtts"})
 
-	if gw.Protocol != "mqtts" || gw.Host != "mqtt.datonis.io" || gw.Port != 8883 {
-		eGW := &GatewayConfig{Protocol: "mqtts", Host: "mqtt.datonis.io", Port: 8883}
+	if gw.Protocol != "mqtts" || gw.Host != "telemetry.datonis.io" || gw.Port != 8883 {
+		eGW := &GatewayConfig{Protocol: "mqtts", Host: "telemetry.datonis.io", Port: 8883}
 		t.Errorf("Expected Gateway to be %+v, but got %+v", eGW, gw)
 	}
 }
@@ -17,8 +17,8 @@ func TestMqttsGatewayConfig(t *testing.T) {
 func TestMqttGatewayConfig(t *testing.T) {
 	gw := InitGatewayConfig(&GatewayConfig{Protocol: "mqtt"})
 
-	if gw.Protocol != "mqtt" || gw.Host != "mqtt.datonis.io" || gw.Port != 1883 {
-		eGW := &GatewayConfig{Protocol: "mqtt", Host: "mqtt.datonis.io", Port: 1883}
+	if gw.Protocol != "mqtt" || gw.Host != "telemetry.datonis.io" || gw.Port != 1883 {
+		eGW := &GatewayConfig{Protocol: "mqtt", Host: "telemetry.datonis.io", Port: 1883}
 		t.Errorf("Expected Gateway to be %+v, but got %+v", eGW, gw)
 	}
 }
